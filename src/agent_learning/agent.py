@@ -2,10 +2,10 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from google.genai import types
-from .provider import LLMProvider
 
-from .registry import ToolRegistry
 from .context import ContextManager
+from .provider import LLMProvider
+from .registry import ToolRegistry
 
 SYSTEM_INSTRUCTION = """
 You are a coding agent operating inside a workspace.
@@ -76,22 +76,7 @@ class Agent:
         # Store a structured execution trace.
         steps = []
 
-        config = types.GenerateContentConfig(
-            system_instruction=SYSTEM_INSTRUCTION,
-            tools=[
-                self.tool_registry.to_gemini_tool()
-            ],
-            automatic_function_calling=(
-                types.AutomaticFunctionCallingConfig(
-                    disable=True
-                )
-            ),
-        )
-
-        for iteration in range(
-            self.max_iterations
-        ):
-
+        for iteration in range(self.max_iterations):
             print(
                 f"\n--- Iteration "
                 f"{iteration + 1} ---"

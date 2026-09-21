@@ -1,6 +1,7 @@
-from dataclasses import dataclass
-from typing import Any, Callable, get_type_hints
 import inspect
+from collections.abc import Callable
+from dataclasses import dataclass
+from typing import Any, get_type_hints
 
 from google.genai import types
 
@@ -71,11 +72,11 @@ class Tool:
 
             python_type = type_hints.get(param_name, str)
 
-            if python_type == int:
+            if python_type is int:
                 json_type = "integer"
-            elif python_type == float:
+            elif python_type is float:
                 json_type = "number"
-            elif python_type == bool:
+            elif python_type is bool:
                 json_type = "boolean"
             else:
                 json_type = "string"
